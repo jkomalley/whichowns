@@ -42,5 +42,9 @@ ignore = [
     "TD003",  # missing issue link in TODO
     "TRY003", # avoid specifying long messages outside the exception class
     "CPY001", # missing copyright notice
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
     "S101",   # use of assert (pytest relies on it)
 ]
