@@ -25,7 +25,9 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
+    "pytest>=9.2.0",
     "ruff>=0.17.3",
+    "ty>=0.0.96",
 ]
 
 [tool.ruff.lint]
@@ -40,4 +42,5 @@ ignore = [
     "TD003",  # missing issue link in TODO
     "TRY003", # avoid specifying long messages outside the exception class
     "CPY001", # missing copyright notice
+    "S101",   # use of assert (pytest relies on it)
 ]
