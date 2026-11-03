@@ -30,7 +30,7 @@ type:
 
 # Run every check without changing files
 check:
-    uv run ruff format --check src/ tests/
-    uv run ruff check src/ tests/
-    uv run ty check src/ tests/
-    uv run pytest
+    uv run --locked ruff format --check src/ tests/
+    uv run --locked ruff check src/ tests/
+    uv run --locked ty check src/ tests/
+    uv run --locked pytest
