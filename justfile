@@ -26,11 +26,11 @@ lint:
 
 # Type check
 type:
-    uv run ty check src/
+    uv run ty check src/ tests/
 
 # Run every check without changing files
 check:
     uv run ruff format --check src/ tests/
     uv run ruff check src/ tests/
-    uv run ty check src/
+    uv run ty check src/ tests/
     uv run pytest
