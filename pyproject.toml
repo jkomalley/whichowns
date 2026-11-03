@@ -1,0 +1,17 @@
+[project]
+name = "whichowns"
+version = "0.1.0"
+description = "Find which package manager owns a command."
+readme = "README.md"
+authors = [
+    { name = "Kyle O'Malley", email = "j.kyle.omalley@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+whichowns = "whichowns:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"
