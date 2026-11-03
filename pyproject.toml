@@ -11,6 +11,11 @@ license = "MIT"
 license-files = ["LICENSE"]
 dependencies = []
 
+[project.urls]
+Homepage = "https://github.com/jkomalley/whichowns"
+Repository = "https://github.com/jkomalley/whichowns"
+Issues = "https://github.com/jkomalley/whichowns/issues"
+
 [project.scripts]
 whichowns = "whichowns:main"
 
