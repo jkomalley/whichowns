@@ -8,14 +8,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-Tasks run through `just`. Each recipe is a plain `uv run …` command; see `justfile`.
+Tasks run through `just`. Apart from `default`, each recipe wraps a plain `uv` command; see `justfile`.
 
-- `just sync`: install the project and dev tools
+- `just sync [args]`: install the project and dev tools
 - `just run [args]`: run the CLI
-- `just test`: run tests
-- `just fmt`: format code
-- `just lint`: lint and auto-fix
-- `just type`: type check
+- `just test [args]`: run tests
+- `just fmt [args]`: format code
+- `just lint [args]`: lint and auto-fix
+- `just type [args]`: type check
 - `just check`: format check, lint, type check and tests; must pass before committing
 
 ## Workflow
