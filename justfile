@@ -5,28 +5,28 @@ default:
     @just --list
 
 # Install the project and dev tools
-sync:
-    uv sync
+sync *args:
+    uv sync "$@"
 
 # Run the CLI locally, passing any arguments through
 run *args:
     uv run whichowns "$@"
 
 # Run tests
-test:
-    uv run pytest
+test *args:
+    uv run pytest "$@"
 
 # Format code
-fmt:
-    uv run ruff format src/ tests/
+fmt *args:
+    uv run ruff format src/ tests/ "$@"
 
 # Lint and auto-fix
-lint:
-    uv run ruff check --fix src/ tests/
+lint *args:
+    uv run ruff check --fix src/ tests/ "$@"
 
 # Type check
-type:
-    uv run ty check src/ tests/
+type *args:
+    uv run ty check src/ tests/ "$@"
 
 # Run every check without changing files
 check:
