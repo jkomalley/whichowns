@@ -22,3 +22,22 @@ whichowns = "whichowns:main"
 [build-system]
 requires = ["uv_build>=0.13.6,<0.14.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.17.3",
+]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D203",   # one-blank-line-before-class (conflicts with D211)
+    "D213",   # multi-line-summary-second-line (conflicts with D212)
+    "COM812", # missing trailing comma (conflicts with formatter)
+    "ISC001", # single-line implicit string concatenation (conflicts with formatter)
+    "FIX002", # line contains TODO
+    "TD002",  # missing author in TODO
+    "TD003",  # missing issue link in TODO
+    "TRY003", # avoid specifying long messages outside the exception class
+    "CPY001", # missing copyright notice
+]
