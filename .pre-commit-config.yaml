@@ -5,33 +5,20 @@ default_stages: [pre-commit]
 repos:
   - repo: local
     hooks:
+      # Also run on push, for commits that skipped the commit hooks.
       - id: lint
-        name: just lint
-        entry: just lint
-        language: system
-        pass_filenames: false
-
-      - id: fmt
-        name: just fmt
-        entry: just fmt
-        language: system
-        pass_filenames: false
-
-      # Repeat the commit-stage checks without fixing, for commits that
-      # skipped the hooks.
-      - id: lint-check
         name: just lint --no-fix
         entry: just lint --no-fix
         language: system
         pass_filenames: false
-        stages: [pre-push]
+        stages: [pre-commit, pre-push]
 
-      - id: fmt-check
+      - id: fmt
         name: just fmt --check
         entry: just fmt --check
         language: system
         pass_filenames: false
-        stages: [pre-push]
+        stages: [pre-commit, pre-push]
 
       - id: type
         name: just type
