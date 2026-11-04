@@ -17,7 +17,7 @@ sync *args:
 run *args:
     uv run whichowns "$@"
 
-# Run tests
+# Run unit tests
 test *args:
     uv run --locked pytest "$@"
 
