@@ -9,14 +9,12 @@ repos:
         name: just lint
         entry: just lint
         language: system
-        types: [python]
         pass_filenames: false
 
       - id: fmt
         name: just fmt
         entry: just fmt
         language: system
-        types: [python]
         pass_filenames: false
 
       # Pre-push hooks run against the working tree, so only a clean checkout
