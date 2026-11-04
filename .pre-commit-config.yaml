@@ -18,12 +18,15 @@ repos:
         pass_filenames: false
 
       # Pre-push hooks run against the working tree, so only a clean checkout
-      # of the pushed commit guarantees they check what is pushed.
+      # of the pushed commit guarantees they check what is pushed. pre-commit
+      # leaves PRE_COMMIT_TO_REF unset for manual runs, and only checks the
+      # first ref of a multi-ref push.
       - id: clean-push
         name: clean push
         entry: >-
           sh -c '[ -z "$(git status --porcelain)" ] &&
-          [ "$PRE_COMMIT_TO_REF" = "$(git rev-parse HEAD)" ] ||
+          { [ -z "$PRE_COMMIT_TO_REF" ] ||
+          [ "$(git rev-parse "$PRE_COMMIT_TO_REF^{commit}")" = "$(git rev-parse HEAD)" ]; } ||
           { echo "Push only the checked-out commit, with no staged or untracked changes." >&2; exit 1; }'
         language: system
         pass_filenames: false
