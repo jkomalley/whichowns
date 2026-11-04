@@ -45,8 +45,4 @@ type *args:
     uv run --locked ty check src/ tests/ "$@"
 
 # Run every check without changing files
-check:
-    uv run --locked ruff format --check src/ tests/
-    uv run --locked ruff check src/ tests/
-    uv run --locked ty check src/ tests/
-    uv run --locked pytest --cov-fail-under=100
+check: (fmt "--check") (lint "--no-fix") type cov

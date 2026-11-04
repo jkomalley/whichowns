@@ -31,6 +31,22 @@ repos:
         pass_filenames: false
         stages: [pre-push]
 
+      # Repeat the commit-stage checks without fixing, for commits that
+      # skipped the hooks.
+      - id: lint-check
+        name: just lint --no-fix
+        entry: just lint --no-fix
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: fmt-check
+        name: just fmt --check
+        entry: just fmt --check
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
       - id: type
         name: just type
         entry: just type
