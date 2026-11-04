@@ -173,7 +173,7 @@ Integration tests live in `tests/integration/`, carry the `integration` marker, 
 | uv | `uv tool install` into temporary `UV_TOOL_DIR` and `UV_TOOL_BIN_DIR` |
 | pipx | `pipx install` into temporary `PIPX_HOME` and `PIPX_BIN_DIR`, including a `--suffix` install |
 | brew | Commands already installed under `$(brew --prefix)/bin`, compared against `brew`'s own answer |
-| dpkg | Commands on `PATH`, compared against `dpkg-query -S`; plus `nc` → `netcat-openbsd` for merged `/usr` |
+| dpkg | Commands on `PATH`, compared against `dpkg-query -S` on each command's resolved path, skipping any it doesn't find; plus `nc` → `netcat-openbsd` for merged `/usr` |
 
 uv and pipx install into temporary directories, so these tests never change a developer's real setup. The `dpkg-query` comparison can't catch merged-`/usr` misses, because `dpkg-query -S` has the same gap; the `nc` test covers them.
 
