@@ -17,7 +17,7 @@ Repository = "https://github.com/jkomalley/whichowns"
 Issues = "https://github.com/jkomalley/whichowns/issues"
 
 [project.scripts]
-whichowns = "whichowns.__main__:main"
+whichowns = "whichowns.cli:main"
 
 [build-system]
 requires = ["uv_build>=0.13.6,<0.14.0"]
