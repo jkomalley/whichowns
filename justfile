@@ -4,6 +4,11 @@ set positional-arguments
 default:
     @just --list
 
+# Install the project, dev tools and git hooks
+setup:
+    uv sync
+    uv run pre-commit install
+
 # Install the project and dev tools
 sync *args:
     uv sync "$@"
