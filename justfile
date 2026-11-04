@@ -21,9 +21,12 @@ run *args:
 test *args:
     uv run pytest "$@"
 
+# pytest exits 5 when it collects no tests, which is expected until the first
+# integration test exists.
+
 # Run integration tests
 integration *args:
-    uv run pytest -m integration --no-cov "$@"
+    uv run pytest -m integration --no-cov "$@" || [ $? -eq 5 ]
 
 # Format code
 fmt *args:
