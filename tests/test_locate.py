@@ -64,6 +64,20 @@ def test_relative_path_is_made_absolute(
     assert location.path == tool
 
 
+def test_relative_path_entry_is_made_absolute(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A match from a relative PATH entry is made absolute."""
+    tool = make_executable(tmp_path / "bin" / "tool")
+    monkeypatch.setenv("PATH", "bin")
+    monkeypatch.chdir(tmp_path)
+
+    location = locate("tool")
+
+    assert location is not None
+    assert location.path == tool
+
+
 def test_path_argument_does_not_search_path(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
