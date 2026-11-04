@@ -78,6 +78,27 @@ def test_relative_path_entry_is_made_absolute(
     assert location.path == tool
 
 
+def test_directory_of_path_is_resolved(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Symlinked directories and ".." are resolved, but the command link is kept."""
+    real = make_executable(tmp_path / "real" / "a" / "tool-1.0")
+    link = tmp_path / "real" / "a" / "tool"
+    link.symlink_to("tool-1.0")
+    (tmp_path / "real" / "a" / "b").mkdir()
+    (tmp_path / "dirlink").symlink_to(tmp_path / "real" / "a" / "b")
+    set_path(monkeypatch, tmp_path / "empty")
+    monkeypatch.chdir(tmp_path)
+
+    # ".." after a symlinked directory is relative to the link's target, so it
+    # can't be removed as text.
+    location = locate("dirlink/../tool")
+
+    assert location is not None
+    assert location.path == link
+    assert location.resolved == real
+
+
 def test_path_argument_does_not_search_path(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

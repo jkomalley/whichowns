@@ -19,7 +19,11 @@ def locate(command: str) -> Location | None:
     match = shutil.which(command)
     if match is None:
         return None
-    # which() returns relative paths for relative arguments or PATH entries, but
-    # detectors compare against absolute paths, such as those in dpkg's file lists.
-    path = Path(match).absolute()
+    # which() can return relative paths, "..", and symlinked directories, but
+    # detectors compare against canonical paths, such as those in dpkg's file
+    # lists. Only the directory is resolved: the command itself may be a symlink
+    # that a package owns. Removing ".." as text would be wrong after a
+    # symlinked directory.
+    found = Path(match)
+    path = found.parent.resolve() / found.name
     return Location(command=command, path=path, resolved=path.resolve())

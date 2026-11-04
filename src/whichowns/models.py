@@ -12,7 +12,8 @@ class Location:
 
     Attributes:
         command: The argument exactly as given.
-        path: The PATH match, or the given path, made absolute.
+        path: The PATH match, or the given path, in its real directory.
+            Not followed if it's a symlink itself.
         resolved: The final target after following every symlink.
 
     """
