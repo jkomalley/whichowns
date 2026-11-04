@@ -1,31 +1,34 @@
 default_install_hook_types: [pre-commit, pre-push]
 default_stages: [pre-commit]
 
+# Hooks call just recipes so commands, paths and flags live only in the justfile.
 repos:
   - repo: local
     hooks:
-      - id: ruff-check
-        name: ruff check
-        entry: uv run ruff check --fix
+      - id: lint
+        name: just lint
+        entry: just lint
         language: system
         types: [python]
+        pass_filenames: false
 
-      - id: ruff-format
-        name: ruff format
-        entry: uv run ruff format
+      - id: fmt
+        name: just fmt
+        entry: just fmt
         language: system
         types: [python]
+        pass_filenames: false
 
-      - id: ty
-        name: ty type check
-        entry: uv run ty check src/ tests/
+      - id: type
+        name: just type
+        entry: just type
         language: system
         pass_filenames: false
         stages: [pre-push]
 
-      - id: pytest
-        name: pytest
-        entry: uv run pytest
+      - id: test
+        name: just test
+        entry: just test --cov-fail-under=100
         language: system
         pass_filenames: false
         stages: [pre-push]

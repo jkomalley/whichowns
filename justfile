@@ -19,26 +19,26 @@ run *args:
 
 # Run tests
 test *args:
-    uv run pytest "$@"
+    uv run --locked pytest "$@"
 
 # pytest exits 5 when it collects no tests, which is expected until the first
 # integration test exists.
 
 # Run integration tests
 integration *args:
-    uv run pytest -m integration --no-cov "$@" || [ $? -eq 5 ]
+    uv run --locked pytest -m integration --no-cov "$@" || [ $? -eq 5 ]
 
 # Format code
 fmt *args:
-    uv run ruff format src/ tests/ "$@"
+    uv run --locked ruff format src/ tests/ "$@"
 
 # Lint and auto-fix
 lint *args:
-    uv run ruff check --fix src/ tests/ "$@"
+    uv run --locked ruff check --fix src/ tests/ "$@"
 
 # Type check
 type *args:
-    uv run ty check src/ tests/ "$@"
+    uv run --locked ty check src/ tests/ "$@"
 
 # Run every check without changing files
 check:
