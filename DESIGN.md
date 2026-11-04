@@ -33,8 +33,8 @@ $ whichowns -v rg
 rg: ripgrep (brew)
 /opt/homebrew/Cellar/ripgrep/15.1.0/bin/rg
 
-$ whichowns /usr/bin/ls
-/usr/bin/ls: coreutils (dpkg)
+$ whichowns /usr/bin/sed
+/usr/bin/sed: sed (dpkg)
 
 $ whichowns foo
 foo: unmanaged
