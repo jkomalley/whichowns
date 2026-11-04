@@ -26,7 +26,7 @@ repos:
         entry: >-
           sh -c '[ -z "$(git status --porcelain)" ] &&
           [ "$PRE_COMMIT_TO_REF" = "$(git rev-parse HEAD)" ] ||
-          { echo "Push only the checked-out commit, with no uncommitted changes." >&2; exit 1; }'
+          { echo "Push only the checked-out commit, with no staged or untracked changes." >&2; exit 1; }'
         language: system
         pass_filenames: false
         stages: [pre-push]
