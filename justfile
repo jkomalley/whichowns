@@ -23,7 +23,7 @@ test *args:
 
 # Run unit tests with the 100% coverage gate
 cov:
-    uv run --locked pytest --cov-fail-under=100
+    uv run --locked pytest --cov --cov-fail-under=100
 
 # pytest exits 5 when it collects no tests. That's expected until
 # tests/integration/ exists; after that it means a filter or path matched
@@ -31,7 +31,7 @@ cov:
 
 # Run integration tests
 integration *args:
-    uv run --locked pytest -m integration --no-cov "$@" || { [ $? -eq 5 ] && [ ! -d tests/integration ]; }
+    uv run --locked pytest -m integration "$@" || { [ $? -eq 5 ] && [ ! -d tests/integration ]; }
 
 # Format code
 fmt *args:

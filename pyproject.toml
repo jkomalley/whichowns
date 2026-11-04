@@ -60,7 +60,6 @@ markers = [
 addopts = [
     "-ra",
     "-m", "not integration",
-    "--cov",
 ]
 
 [tool.coverage.run]
