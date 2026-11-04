@@ -1,7 +1,6 @@
 default_install_hook_types: [pre-commit, pre-push]
 default_stages: [pre-commit]
 
-# Hooks call just recipes so commands and paths live only in the justfile.
 repos:
   - repo: local
     hooks:
