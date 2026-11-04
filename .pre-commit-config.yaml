@@ -5,7 +5,6 @@ default_stages: [pre-commit]
 repos:
   - repo: local
     hooks:
-      # Also run on push, for commits that skipped the commit hooks.
       - id: lint
         name: just lint --no-fix
         entry: just lint --no-fix
@@ -25,7 +24,7 @@ repos:
         entry: just type
         language: system
         pass_filenames: false
-        stages: [pre-push]
+        stages: [pre-commit, pre-push]
 
       - id: cov
         name: just cov
