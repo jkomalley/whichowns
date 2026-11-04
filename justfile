@@ -15,7 +15,7 @@ sync *args:
 
 # Run the CLI locally, passing any arguments through
 run *args:
-    uv run whichowns "$@"
+    uv run --locked whichowns "$@"
 
 # Run unit tests
 test *args:
