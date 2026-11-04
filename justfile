@@ -21,6 +21,10 @@ run *args:
 test *args:
     uv run --locked pytest "$@"
 
+# Run unit tests with the 100% coverage gate
+cov:
+    uv run --locked pytest --cov-fail-under=100
+
 # pytest exits 5 when it collects no tests, which is expected until the first
 # integration test exists.
 

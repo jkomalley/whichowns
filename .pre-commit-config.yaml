@@ -38,9 +38,9 @@ repos:
         pass_filenames: false
         stages: [pre-push]
 
-      - id: test
-        name: just test
-        entry: just test --cov-fail-under=100
+      - id: cov
+        name: just cov
+        entry: just cov
         language: system
         pass_filenames: false
         stages: [pre-push]

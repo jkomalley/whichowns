@@ -15,6 +15,7 @@ Tasks run through `just`. Apart from `default`, each recipe wraps plain `uv` com
 - `just run [args]`: run the CLI
 - `just test [args]`: run unit tests
 - `just integration [args]`: run integration tests
+- `just cov`: run unit tests with the 100% coverage gate
 - `just fmt [args]`: format code
 - `just lint [args]`: lint and auto-fix
 - `just type [args]`: type check
