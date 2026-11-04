@@ -75,7 +75,7 @@ src/whichowns/
 
 `cli.py` is the only module that prints or sets exit codes. There is no public library API.
 
-`cli.main(argv: list[str] | None = None) -> int` returns the exit code, and `__main__.py` passes it to `sys.exit()`. The `[project.scripts]` entry point changes to `whichowns.cli:main`.
+`cli.main(argv: list[str] | None = None) -> int` returns the exit code, and `__main__.py` passes it to `sys.exit()`. Usage errors and `--help` are the exception: argparse exits directly (with 2 and 0), so tests check them with `pytest.raises(SystemExit)`. The `[project.scripts]` entry point changes to `whichowns.cli:main`.
 
 ## Flow
 
