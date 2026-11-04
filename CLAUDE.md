@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-Tasks run through `just`. Apart from `default`, each recipe wraps a plain `uv` command; see `justfile`.
+Tasks run through `just`. Apart from `default`, each recipe wraps plain `uv` commands; see `justfile`.
 
 - `just setup`: install the project, dev tools and git hooks
 - `just sync [args]`: install the project and dev tools
