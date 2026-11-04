@@ -31,7 +31,7 @@ cov:
 
 # Run integration tests
 integration *args:
-    uv run --locked pytest -m integration "$@" || { [ $? -eq 5 ] && [ ! -d tests/integration ]; }
+    uv run --locked pytest -m integration "$@" || { s=$?; [ $s -eq 5 ] && [ ! -d tests/integration ] || exit $s; }
 
 # Format code
 fmt *args:
