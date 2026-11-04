@@ -16,7 +16,7 @@ Tasks run through `just`. Apart from `default`, each recipe wraps a plain `uv` c
 - `just fmt [args]`: format code
 - `just lint [args]`: lint and auto-fix
 - `just type [args]`: type check
-- `just check`: format check, lint, type check and tests; must pass before committing
+- `just check`: format check, lint, type check and tests with the 100% coverage gate; must pass before committing
 
 ## Workflow
 
