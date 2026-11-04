@@ -7,7 +7,7 @@ default:
 # Install the project, dev tools and git hooks
 setup:
     uv sync --locked
-    uv run pre-commit install
+    uv run --locked pre-commit install
 
 # Install the project and dev tools
 sync *args:
