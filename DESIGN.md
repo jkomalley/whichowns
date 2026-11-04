@@ -14,8 +14,6 @@
 
 Every detector is a `feat:`, so CI's version guard requires a minor bump for each one. A release is a version-bump PR, and the CD workflow publishes it to PyPI after it merges.
 
-`pyproject.toml` currently says `0.1.0` and needs to change to `0.0.1` in the first release PR.
-
 ## Behavior
 
 `whichowns` takes one argument, a command name or a path to an executable.
