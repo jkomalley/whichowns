@@ -12,9 +12,9 @@ def no_match(_: Location) -> None:
     """Match nothing."""
 
 
-def test_default_registry_reports_unmanaged() -> None:
-    """With no detectors registered, every command is unmanaged."""
-    assert find_owner(LOCATION) is None
+def test_no_detectors_returns_none() -> None:
+    """None is returned when there are no detectors to ask."""
+    assert find_owner(LOCATION, []) is None
 
 
 def test_no_match_returns_none() -> None:
