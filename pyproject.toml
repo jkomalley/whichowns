@@ -53,8 +53,12 @@ ignore = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 strict = true
+markers = [
+    "integration: runs real package managers; deselected by default",
+]
 addopts = [
     "-ra",
+    "-m", "not integration",
     "--cov",
     "--cov-fail-under=100",
 ]

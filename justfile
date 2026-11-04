@@ -16,6 +16,10 @@ run *args:
 test *args:
     uv run pytest "$@"
 
+# Run integration tests
+integration *args:
+    uv run pytest -m integration --no-cov "$@"
+
 # Format code
 fmt *args:
     uv run ruff format src/ tests/ "$@"

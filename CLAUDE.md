@@ -12,7 +12,8 @@ Tasks run through `just`. Apart from `default`, each recipe wraps a plain `uv` c
 
 - `just sync [args]`: install the project and dev tools
 - `just run [args]`: run the CLI
-- `just test [args]`: run tests
+- `just test [args]`: run unit tests
+- `just integration [args]`: run integration tests
 - `just fmt [args]`: format code
 - `just lint [args]`: lint and auto-fix
 - `just type [args]`: type check
