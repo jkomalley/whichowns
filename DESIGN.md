@@ -12,7 +12,7 @@
 | `0.3.0` | uv detector |
 | `0.4.0` | pipx detector; this spec fully implemented |
 
-Every detector is a `feat:`, so CI's version guard requires a minor bump for each one. A release is a version-bump PR, and the CD workflow publishes it to PyPI after it merges.
+Every detector is a `feat:`, so each one ships in a minor release. A release is a version-bump PR, and the CD workflow publishes it to PyPI after it merges.
 
 ## Behavior
 

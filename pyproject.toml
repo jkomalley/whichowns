@@ -51,6 +51,11 @@ ignore = [
     "S101",   # use of assert (pytest relies on it)
 ]
 
+# ty skips code it considers unreachable on the host platform, so checking on
+# Linux alone would silently skip macOS-only branches.
+[tool.ty.environment]
+python-platform = "all"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 strict = true
