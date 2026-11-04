@@ -42,4 +42,4 @@ check:
     uv run --locked ruff format --check src/ tests/
     uv run --locked ruff check src/ tests/
     uv run --locked ty check src/ tests/
-    uv run --locked pytest
+    uv run --locked pytest --cov-fail-under=100

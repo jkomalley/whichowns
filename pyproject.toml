@@ -61,7 +61,6 @@ addopts = [
     "-ra",
     "-m", "not integration",
     "--cov",
-    "--cov-fail-under=100",
 ]
 
 [tool.coverage.run]
