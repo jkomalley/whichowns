@@ -1,11 +1,15 @@
-"""Tests for the whichowns entry point."""
+"""Tests for `python -m whichowns`."""
+
+import runpy
 
 import pytest
 
-from whichowns.__main__ import main
 
+def test_module_exits_with_main_result(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Running the package as a module exits with cli.main()'s return code."""
+    monkeypatch.setattr("sys.argv", ["whichowns", "whichowns-nonexistent-command"])
 
-def test_main_prints_hello(capsys: pytest.CaptureFixture[str]) -> None:
-    """main() writes the hello message to stdout."""
-    main()
-    assert capsys.readouterr().out == "Hello from whichowns!\n"
+    with pytest.raises(SystemExit) as exc_info:
+        runpy.run_module("whichowns", run_name="__main__")
+
+    assert exc_info.value.code == 1

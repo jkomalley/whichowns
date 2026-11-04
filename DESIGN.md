@@ -160,7 +160,7 @@ Unit tests must reach 100% line and branch coverage of `src/whichowns`.
 | `find_owner` | Detector lists passed as an argument: none, first match wins, order respected |
 | uv, pipx, brew | Fake directory trees in `tmp_path`; pipx with a suffixed directory; malformed metadata |
 | dpkg | Fake `.list` files through a monkeypatched info-directory constant; merged-`/usr` alias through a monkeypatchable helper |
-| `cli` | Output and exit code for found, unmanaged, not found, path argument, `-v`, and usage error; managed cases use a fake `Cellar` tree on `PATH`, so no mocks are needed |
+| `cli` | Output and exit code for found, unmanaged, not found, path argument, `-v`, and usage error; managed cases stub `find_owner`, so they don't depend on any detector |
 
 ### Integration tests
 
