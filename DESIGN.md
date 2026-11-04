@@ -91,7 +91,7 @@ whichowns rg
 @dataclass(frozen=True)
 class Location:
     command: str    # Argument as given
-    path: Path      # PATH match, or the given path
+    path: Path      # PATH match, or the given path, made absolute
     resolved: Path  # Final symlink target
 
 @dataclass(frozen=True)
@@ -108,7 +108,7 @@ Detector = Callable[[Location], Owner | None]
 |---|---|
 | Arguments | Exactly one command name or path; `argparse`, with no runtime dependencies |
 | PATH lookup | `shutil.which()`, first match only; it checks paths directly |
-| Symlinks | `Path.resolve()`, keeping both `path` and `resolved` |
+| Symlinks | `Path.resolve()`, keeping both `path` (absolute, unresolved) and `resolved` (every link followed) |
 | Symlinked commands | Owner is the package of the resolved file; `path` is only checked when `resolved` matches nothing |
 | Detectors | Plain functions, tried in the order uv, pipx, brew, dpkg |
 | Detector order | uv, pipx and brew can't match the same path, so their order doesn't matter; dpkg is last because it's the only slow one |
