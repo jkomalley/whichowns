@@ -8,15 +8,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-Tasks run through `just`. Apart from `default`, each recipe wraps a plain `uv` command; see `justfile`.
+Tasks run through `just`. Apart from `default` and `check`, recipes are thin wrappers around `uv` commands; see `justfile`.
 
+- `just setup`: install the project, dev tools and git hooks
 - `just sync [args]`: install the project and dev tools
 - `just run [args]`: run the CLI
-- `just test [args]`: run tests
+- `just test [args]`: run unit tests
+- `just integration [args]`: run integration tests
+- `just cov`: run unit tests with the 100% coverage gate
 - `just fmt [args]`: format code
 - `just lint [args]`: lint and auto-fix
 - `just type [args]`: type check
-- `just check`: format check, lint, type check and tests; must pass before committing
+- `just check`: format check, lint, type check and tests with the 100% coverage gate; must pass before committing
 
 ## Workflow
 

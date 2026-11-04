@@ -4,33 +4,46 @@ set positional-arguments
 default:
     @just --list
 
+# Install the project, dev tools and git hooks
+setup:
+    uv sync --locked
+    uv run --locked pre-commit install
+
 # Install the project and dev tools
 sync *args:
     uv sync "$@"
 
 # Run the CLI locally, passing any arguments through
 run *args:
-    uv run whichowns "$@"
+    uv run --locked whichowns "$@"
 
-# Run tests
+# Run unit tests
 test *args:
-    uv run pytest "$@"
+    uv run --locked pytest "$@"
+
+# Run unit tests with the 100% coverage gate
+cov:
+    uv run --locked pytest --cov --cov-fail-under=100
+
+# pytest exits 5 when it collects no tests. That's expected until
+# tests/integration/ exists; after that it means a filter or path matched
+# nothing, so it fails.
+
+# Run integration tests
+integration *args:
+    uv run --locked pytest -m integration "$@" || { s=$?; [ $s -eq 5 ] && [ ! -d tests/integration ] || exit $s; }
 
 # Format code
 fmt *args:
-    uv run ruff format src/ tests/ "$@"
+    uv run --locked ruff format src/ tests/ "$@"
 
 # Lint and auto-fix
 lint *args:
-    uv run ruff check --fix src/ tests/ "$@"
+    uv run --locked ruff check --fix src/ tests/ "$@"
 
 # Type check
 type *args:
-    uv run ty check src/ tests/ "$@"
+    uv run --locked ty check src/ tests/ "$@"
 
 # Run every check without changing files
-check:
-    uv run --locked ruff format --check src/ tests/
-    uv run --locked ruff check src/ tests/
-    uv run --locked ty check src/ tests/
-    uv run --locked pytest
+check: (fmt "--check") (lint "--no-fix") type cov

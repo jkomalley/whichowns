@@ -25,7 +25,9 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
+    "pre-commit>=4.7.0",
     "pytest>=9.2.0",
+    "pytest-cov>=7.1.0",
     "ruff>=0.17.3",
     "ty>=0.0.96",
 ]
@@ -47,4 +49,25 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = [
     "S101",   # use of assert (pytest relies on it)
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+strict = true
+markers = [
+    "integration: runs real package managers; deselected by default",
+]
+addopts = [
+    "-ra",
+    "-m", "not integration",
+]
+
+[tool.coverage.run]
+source = ["whichowns"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+exclude_also = [
+    "if __name__ == .__main__.",
 ]
