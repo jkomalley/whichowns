@@ -25,12 +25,13 @@ test *args:
 cov:
     uv run --locked pytest --cov-fail-under=100
 
-# pytest exits 5 when it collects no tests, which is expected until the first
-# integration test exists.
+# pytest exits 5 when it collects no tests. That's expected until
+# tests/integration/ exists; after that it means a filter or path matched
+# nothing, so it fails.
 
 # Run integration tests
 integration *args:
-    uv run --locked pytest -m integration --no-cov "$@" || [ $? -eq 5 ]
+    uv run --locked pytest -m integration --no-cov "$@" || { [ $? -eq 5 ] && [ ! -d tests/integration ]; }
 
 # Format code
 fmt *args:
