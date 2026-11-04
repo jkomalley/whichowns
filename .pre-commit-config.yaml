@@ -19,6 +19,18 @@ repos:
         types: [python]
         pass_filenames: false
 
+      # Pre-push hooks run against the working tree, so only a clean checkout
+      # of the pushed commit guarantees they check what is pushed.
+      - id: clean-push
+        name: clean push
+        entry: >-
+          sh -c '[ -z "$(git status --porcelain)" ] &&
+          [ "$PRE_COMMIT_TO_REF" = "$(git rev-parse HEAD)" ] ||
+          { echo "Push only the checked-out commit, with no uncommitted changes." >&2; exit 1; }'
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
       - id: type
         name: just type
         entry: just type
