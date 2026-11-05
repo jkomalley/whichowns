@@ -1,7 +1,8 @@
 """Integration tests for the installed whichowns command."""
 
-import shutil
 import subprocess
+import sysconfig
+from pathlib import Path
 
 import pytest
 
@@ -10,8 +11,9 @@ pytestmark = pytest.mark.integration
 
 def run_whichowns(*args: str) -> subprocess.CompletedProcess[str]:
     """Run the installed whichowns command and capture its output."""
-    path = shutil.which("whichowns")
-    assert path is not None, "whichowns is not installed on PATH"
+    # Not shutil.which: PATH may hold another whichowns, or none at all when
+    # pytest isn't started through uv run.
+    path = Path(sysconfig.get_path("scripts")) / "whichowns"
     return subprocess.run(  # noqa: S603
         [path, *args], capture_output=True, text=True, check=False
     )
