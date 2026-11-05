@@ -30,7 +30,7 @@ cov:
 # throwaway environment so .venv stays editable. --reinstall-package stops uv
 # from reusing a cached build of older source.
 integration *args:
-    uv run --locked --isolated --no-editable --reinstall-package whichowns pytest -m integration "$@"
+    uv run --locked --isolated --no-editable --reinstall-package whichowns pytest -m integration tests/integration "$@"
 
 # Format code
 fmt *args:

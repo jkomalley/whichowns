@@ -68,4 +68,4 @@ jobs:
 
       # Same command as `just integration`; see the justfile for the flags.
       - name: Integration tests
-        run: uv run --locked --isolated --no-editable --reinstall-package whichowns pytest -m integration
+        run: uv run --locked --isolated --no-editable --reinstall-package whichowns pytest -m integration tests/integration
