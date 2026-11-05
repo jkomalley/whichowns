@@ -78,4 +78,4 @@ jobs:
 
       # --no-sync stops uv run from reinstalling the editable project.
       - name: Integration tests
-        run: uv run --no-sync pytest -m integration --no-cov
+        run: uv run --no-sync pytest -m integration
