@@ -54,3 +54,18 @@ jobs:
 
       - name: Test
         run: uv run --locked pytest --cov --cov-fail-under=100
+
+  integration:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: astral-sh/setup-uv@v10.3.3
+
+      # Same command as `just integration`; see the justfile for the flags.
+      - name: Integration tests
+        run: uv run --locked --isolated --no-editable --reinstall-package whichowns pytest -m integration tests/integration

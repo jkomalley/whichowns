@@ -25,13 +25,12 @@ test *args:
 cov:
     uv run --locked pytest --cov --cov-fail-under=100
 
-# pytest exits 5 when it collects no tests. That's expected until
-# tests/integration/ exists; after that it means a filter or path matched
-# nothing, so it fails.
-
 # Run integration tests
+# They run against a fresh non-editable build, as users install it, in a
+# throwaway environment so .venv stays editable. --reinstall-package stops uv
+# from reusing a cached build of older source.
 integration *args:
-    uv run --locked pytest -m integration "$@" || { s=$?; [ $s -eq 5 ] && [ ! -d tests/integration ] || exit $s; }
+    uv run --locked --isolated --no-editable --reinstall-package whichowns pytest -m integration tests/integration "$@"
 
 # Format code
 fmt *args:
