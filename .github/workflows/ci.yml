@@ -66,16 +66,6 @@ jobs:
 
       - uses: astral-sh/setup-uv@v10.3.3
 
-      - name: Build wheel
-        run: uv build --wheel
-
-      # Install the dev tools without the project, then the wheel in its place,
-      # so the tests exercise what users install rather than the source tree.
-      - name: Install wheel
-        run: |
-          uv sync --locked --no-install-project
-          uv pip install dist/*.whl
-
-      # --no-sync stops uv run from reinstalling the editable project.
+      # Same command as `just integration`; see the justfile for the flags.
       - name: Integration tests
-        run: uv run --no-sync pytest -m integration
+        run: uv run --locked --isolated --no-editable --reinstall-package whichowns pytest -m integration

@@ -26,8 +26,11 @@ cov:
     uv run --locked pytest --cov --cov-fail-under=100
 
 # Run integration tests
+# They run against a fresh non-editable build, as users install it, in a
+# throwaway environment so .venv stays editable. --reinstall-package stops uv
+# from reusing a cached build of older source.
 integration *args:
-    uv run --locked pytest -m integration "$@"
+    uv run --locked --isolated --no-editable --reinstall-package whichowns pytest -m integration "$@"
 
 # Format code
 fmt *args:
