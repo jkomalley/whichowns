@@ -54,3 +54,28 @@ jobs:
 
       - name: Test
         run: uv run --locked pytest --cov --cov-fail-under=100
+
+  integration:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: astral-sh/setup-uv@v10.3.3
+
+      - name: Build wheel
+        run: uv build --wheel
+
+      # Install the dev tools without the project, then the wheel in its place,
+      # so the tests exercise what users install rather than the source tree.
+      - name: Install wheel
+        run: |
+          uv sync --locked --no-install-project
+          uv pip install dist/*.whl
+
+      # --no-sync stops uv run from reinstalling the editable project.
+      - name: Integration tests
+        run: uv run --no-sync pytest -m integration --no-cov
