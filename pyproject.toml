@@ -60,7 +60,7 @@ python-platform = "all"
 testpaths = ["tests"]
 strict = true
 markers = [
-    "integration: runs real package managers; deselected by default",
+    "integration: runs the installed package against the real system; deselected by default",
 ]
 addopts = [
     "-ra",
