@@ -14,8 +14,9 @@ def run_whichowns(*args: str) -> subprocess.CompletedProcess[str]:
     # Not shutil.which: PATH may hold another whichowns, or none at all when
     # pytest isn't started through uv run.
     path = Path(sysconfig.get_path("scripts")) / "whichowns"
+    # A blocked package manager should fail the test, not hang CI for hours.
     return subprocess.run(  # noqa: S603
-        [path, *args], capture_output=True, text=True, check=False
+        [path, *args], capture_output=True, text=True, check=False, timeout=30
     )
 
 
