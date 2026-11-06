@@ -40,7 +40,7 @@ Tasks run through `just`. Apart from `default` and `check`, recipes are thin wra
 ## Releasing
 
 1. In a PR, bump the version with `uv version`, rename `[Unreleased]` in `CHANGELOG.md` to `[x.y.z] - YYYY-MM-DD`, add a new empty `[Unreleased]`, and update the compare links. CD stops if the new section has no entries.
-2. After it merges, tag `main`: `git fetch origin && git tag vx.y.z origin/main && git push origin vx.y.z`
+2. After it merges, tag `main`: `git fetch origin && git tag -m "Release vx.y.z" vx.y.z origin/main && git push origin vx.y.z`
 3. The CD workflow checks the tag, runs CI, publishes to PyPI and creates the GitHub release.
 
 If CD fails:
