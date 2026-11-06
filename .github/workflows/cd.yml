@@ -1,0 +1,100 @@
+name: CD
+
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+
+permissions:
+  contents: read
+
+jobs:
+  # Runs first so a bad tag fails in seconds, and without write access so nothing
+  # the build runs can publish.
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0 # The on-main check needs the history of main.
+
+      # A publish can't be undone, so catch a tag on the wrong commit. First-parent
+      # history excludes PR branch commits, which can be missing later merges.
+      - name: Check tag is on main
+        run: |
+          if ! git rev-list --first-parent origin/main | grep -qxF "$(git rev-parse HEAD)"; then
+            echo "::error::Tag $GITHUB_REF_NAME isn't a merge commit on main."
+            exit 1
+          fi
+
+      # A cache restored from an earlier run could feed into the published build.
+      - uses: astral-sh/setup-uv@v10.3.3
+        with:
+          enable-cache: false
+
+      # PyPI takes the version from the build, not the tag, so a mismatch would
+      # publish a different version than the tag claims.
+      - name: Check tag matches version
+        run: |
+          if [ "v$(uv version --short)" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME doesn't match version $(uv version --short)."
+            exit 1
+          fi
+
+      # Runs before the PyPI publish so a missing changelog entry stops the
+      # release instead of shipping empty notes.
+      - name: Extract release notes from changelog
+        run: |
+          awk -v ver="${GITHUB_REF_NAME#v}" '
+            $0 ~ ("^## \\[" ver "\\]") { found = 1; next }
+            found && (/^## \[/ || /^\[[^]]+\]: /) { exit }
+            found
+          ' CHANGELOG.md > release-notes.md
+          if ! grep -qvE '^[[:space:]]*(#|$)' release-notes.md; then
+            echo "::error::No CHANGELOG.md entry for $GITHUB_REF_NAME."
+            exit 1
+          fi
+
+      - name: Build
+        run: uv build
+
+      - uses: actions/upload-artifact@v7.0.2
+        with:
+          name: release
+          path: |
+            dist/
+            release-notes.md
+
+  # Pushing a tag doesn't trigger ci.yml, and a publish can't be undone.
+  ci:
+    needs: build
+    uses: ./.github/workflows/ci.yml
+
+  # Holds the publishing rights, so it runs only the downloaded build and never
+  # checks out the project's code.
+  publish:
+    needs: ci
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v8.0.2
+        with:
+          name: release
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@v1.14.3
+        with:
+          skip-existing: true # Lets a re-run finish a partly failed release.
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            --repo "$GITHUB_REPOSITORY" \
+            --verify-tag \
+            --title "$GITHUB_REF_NAME" \
+            --notes-file release-notes.md \
+            dist/*.whl dist/*.tar.gz
