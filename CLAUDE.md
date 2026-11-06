@@ -35,7 +35,19 @@ Tasks run through `just`. Apart from `default` and `check`, recipes are thin wra
 - Each issue has exactly one kind label: `enhancement` when its PR has `feat:` commits, `bug` for defects, `maintenance` for everything else.
 - Each issue also has exactly one area label: `core`, `manager: <name>`, `ci`, `tooling`, `release` or `documentation`. An issue that spans two areas should be split.
 - Each issue goes in the milestone of the release that ships it (`v0.0.1`, `v0.1.0`, …).
-- PRs say `Closes #N`; release PRs say `Part of #N`.
+- PRs say `Closes #N`.
+
+## Releasing
+
+1. In a PR, bump the version with `uv version`, rename `[Unreleased]` in `CHANGELOG.md` to `[x.y.z] - YYYY-MM-DD`, add a new empty `[Unreleased]`, and update the compare links. CD stops if the new section has no entries.
+2. After it merges, tag `main`: `git fetch origin && git tag vx.y.z origin/main && git push origin vx.y.z`
+3. The CD workflow checks the tag, runs CI, publishes to PyPI and creates the GitHub release.
+
+If CD fails:
+
+- **No code fix needed:** re-run the failed jobs.
+- **Fix needed, and nothing is on PyPI yet:** fix it in a PR, delete the tag (`git push --delete origin vx.y.z` and `git tag -d vx.y.z`), and tag `main` again.
+- **The published version has a bug:** bump the version. A published version can't be reused, so never move its tag.
 
 ## Code Style
 
