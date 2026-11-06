@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.1] - 2026-11-06
+
 ### Added
 
 - `whichowns` command, which reports every command it finds as unmanaged until package manager detectors are added.
+
+[Unreleased]: https://github.com/jkomalley/whichowns/compare/v0.0.1...HEAD
+[0.0.1]: https://github.com/jkomalley/whichowns/releases/tag/v0.0.1
