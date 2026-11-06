@@ -35,7 +35,7 @@ Tasks run through `just`. Apart from `default` and `check`, recipes are thin wra
 - Each issue has exactly one kind label: `enhancement` when its PR has `feat:` commits, `bug` for defects, `maintenance` for everything else.
 - Each issue also has exactly one area label: `core`, `manager: <name>`, `ci`, `tooling`, `release` or `documentation`. An issue that spans two areas should be split.
 - Each issue goes in the milestone of the release that ships it (`v0.0.1`, `v0.1.0`, …).
-- PRs say `Closes #N`.
+- PRs say `Closes #N`; release PRs say `Part of #N`.
 
 ## Releasing
 
