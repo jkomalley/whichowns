@@ -69,3 +69,13 @@ jobs:
       # Same command as `just integration`; see the justfile for the flags.
       - name: Integration tests
         run: uv run --locked --isolated --no-editable --reinstall-package whichowns pytest -m integration tests/integration
+
+  ci-success:
+    if: always() # GitHub treats a skipped required check as passing.
+    needs: [format, lint, type, test, integration]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every job to succeed
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: jq --exit-status 'all(.result == "success")' <<< "$NEEDS"
