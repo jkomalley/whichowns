@@ -67,6 +67,19 @@ jobs:
 
       - uses: astral-sh/setup-uv@v10.3.3
 
+      # The brew integration test checks a known formula, so every run tests the
+      # same command.
+      - name: Set up Homebrew
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1" # Skips a slow self-update before installing.
+        run: |
+          # The Ubuntu image includes Homebrew but leaves it off PATH.
+          if [ "$RUNNER_OS" = Linux ]; then
+            eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+            echo "$(brew --prefix)/bin" >> "$GITHUB_PATH"
+          fi
+          brew install hello
+
       # Same command as `just integration`; see the justfile for the flags.
       - name: Integration tests
         run: uv run --locked --isolated --no-editable --reinstall-package whichowns pytest -m integration tests/integration
