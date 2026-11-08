@@ -164,13 +164,13 @@ Unit tests must reach 100% line and branch coverage of `src/whichowns`.
 
 ### Integration tests
 
-Integration tests live in `tests/integration/`, carry the `integration` marker, and are deselected by default. They run the installed `whichowns` command as a subprocess against real package managers, and each test skips when its manager isn't installed. CI runs them on Linux and macOS against the built wheel.
+Integration tests live in `tests/integration/`, carry the `integration` marker, and are deselected by default. They run the installed `whichowns` command as a subprocess against real package managers. CI runs them on Linux and macOS against the built wheel, and installs every manager they need. A test skips locally when its manager isn't installed, but fails in CI, where a missing manager means the setup is broken. A manager that can't exist on a platform, such as dpkg on macOS, is skipped on that platform, in CI too.
 
 | Manager | Approach |
 |---|---|
 | uv | `uv tool install` into temporary `UV_TOOL_DIR` and `UV_TOOL_BIN_DIR` |
 | pipx | `pipx install` into temporary `PIPX_HOME` and `PIPX_BIN_DIR`, including a `--suffix` install |
-| brew | Commands already installed under `$(brew --prefix)/bin`, compared against `brew`'s own answer |
+| brew | `$(brew --prefix)/bin/hello`, from the `hello` formula that CI installs |
 | dpkg | Commands on `PATH`, compared against `dpkg-query -S` on each command's resolved path, skipping any it doesn't find; plus `nc` → `netcat-openbsd` for merged `/usr` |
 
 uv and pipx install into temporary directories, so these tests never change a developer's real setup. The `dpkg-query` comparison can't catch merged-`/usr` misses, because `dpkg-query -S` has the same gap; the `nc` test covers them.

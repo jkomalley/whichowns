@@ -1,8 +1,11 @@
 """Integration tests for the installed whichowns command."""
 
+import os
+import shutil
 import subprocess
 import sysconfig
 from pathlib import Path
+from typing import NoReturn
 
 import pytest
 
@@ -18,6 +21,14 @@ def run_whichowns(*args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(  # noqa: S603
         [path, *args], capture_output=True, text=True, check=False, timeout=30
     )
+
+
+def skip_or_fail(reason: str) -> NoReturn:
+    """Skip the test locally, or fail it in CI."""
+    # CI installs every package manager, so anything missing there is a setup error.
+    if os.environ.get("CI"):
+        pytest.fail(reason)
+    pytest.skip(reason)
 
 
 def test_finds_ls() -> None:
@@ -36,3 +47,18 @@ def test_reports_missing_command() -> None:
     assert result.returncode == 1
     assert result.stdout == ""
     assert "command not found" in result.stderr
+
+
+def test_brew_formula() -> None:
+    """A command installed by a brew formula is reported as that formula's."""
+    brew = shutil.which("brew")
+    if brew is None:
+        skip_or_fail("brew isn't installed")
+    prefix = subprocess.run(  # noqa: S603
+        [brew, "--prefix"], capture_output=True, text=True, check=True, timeout=60
+    ).stdout.strip()
+    hello = Path(prefix) / "bin" / "hello"
+    if not hello.exists():
+        skip_or_fail("brew's hello formula isn't installed")
+
+    assert run_whichowns(str(hello)).stdout == f"{hello}: hello (brew)\n"
