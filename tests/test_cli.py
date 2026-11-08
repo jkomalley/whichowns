@@ -32,7 +32,8 @@ def tool(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
 def owned(monkeypatch: pytest.MonkeyPatch) -> None:
     """Make every command owned by brew's ripgrep."""
 
-    # No detectors are registered yet, so the managed case needs a stub.
+    # Keeps output tests independent of any detector's rules, which have their own
+    # tests. test_brew_end_to_end covers a real detector through the CLI.
     def fake_find_owner(_: Location) -> Owner:
         return Owner("brew", "ripgrep")
 
@@ -64,6 +65,20 @@ def test_managed_verbose(tool: Path, capsys: pytest.CaptureFixture[str]) -> None
     """-v adds the resolved path for a managed command."""
     assert main(["-v", "tool"]) == 0
     assert capsys.readouterr().out == f"tool: ripgrep (brew)\n{tool}\n"
+
+
+def test_brew_end_to_end(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """A command linked from a keg is reported as brew's by the real detectors."""
+    real = make_executable(tmp_path / "Cellar" / "ripgrep" / "15.1.0" / "bin" / "rg")
+    link = tmp_path / "bin" / "rg"
+    link.parent.mkdir()
+    link.symlink_to(real)
+    monkeypatch.setenv("PATH", str(link.parent))
+
+    assert main(["rg"]) == 0
+    assert capsys.readouterr().out == "rg: ripgrep (brew)\n"
 
 
 def test_path_argument_is_echoed_as_given(

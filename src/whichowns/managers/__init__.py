@@ -2,9 +2,10 @@
 
 from collections.abc import Iterable
 
+from whichowns.managers import brew
 from whichowns.models import Detector, Location, Owner
 
-DETECTORS: tuple[Detector, ...] = ()
+DETECTORS: tuple[Detector, ...] = (brew.detect,)
 
 
 def find_owner(

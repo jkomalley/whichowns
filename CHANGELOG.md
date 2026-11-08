@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Homebrew detection: a command installed by a formula is reported as `<formula> (brew)`, on macOS and Linux. Casks aren't detected. ([#10](https://github.com/jkomalley/whichowns/issues/10), [#39](https://github.com/jkomalley/whichowns/pull/39))
+
 ## [0.0.1] - 2026-11-06
 
 ### Added
