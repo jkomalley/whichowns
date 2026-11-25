@@ -27,7 +27,7 @@ jobs:
           fi
 
       # A cache restored from an earlier run could feed into the published build.
-      - uses: astral-sh/setup-uv@v10.3.3
+      - uses: astral-sh/setup-uv@v10.4.0
         with:
           enable-cache: false
 
